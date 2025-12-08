@@ -7,6 +7,7 @@
 #include <string>
 #include <sys/stat.h>
 #include <wx/event.h>
+#include <wx/gdicmn.h>
 #include <wx/gtk/listbox.h>
 #include <wx/gtk/textctrl.h>
 #include <wx/sizer.h>
@@ -16,7 +17,7 @@
 
 bool MyApp::OnInit()
 {
-    MarkdownToolMainFrame *frame = new MarkdownToolMainFrame("Basic wxWidgets Frame", wxDefaultPosition, wxSize(400, 300));
+    MarkdownToolMainFrame *frame = new MarkdownToolMainFrame("Basic wxWidgets Frame", wxDefaultPosition, wxSize(600, 600));
     frame->Show(true);
     return true;
 }
@@ -112,7 +113,7 @@ void MarkdownToolMainFrame::search_markdown(WXBTNEVT&) {
 
     Simple::Title("搜索笔记", panel, vbox);
 
-    auto tctrl1 = new wxTextCtrl(panel, wxID_ANY, L"请输入关键词...");
+    auto tctrl1 = new wxTextCtrl(panel, wxID_ANY, L"请输入关键词...", wxDefaultPosition, wxSize(500, 30));
     tctrl1 -> SetFont(font19);
     vbox -> Add(tctrl1, FLAG_CENTER);
 
@@ -149,6 +150,23 @@ void MarkdownToolMainFrame::show_markdown(std::string to_show) {
     auto vbox = Simple::Init(panel, this);
 
     Simple::Title("笔记呈现", panel, vbox);
+
+    wxTextCtrl* textCtrl = new wxTextCtrl(
+        panel,                      // 父窗口
+        wxID_ANY,                  // ID
+        "",                        // 初始文本
+        wxDefaultPosition,         // 位置
+        wxSize(500, 500),          // 大小
+        wxTE_MULTILINE |           // 允许多行
+        wxTE_READONLY |            // 只读（如果仅显示）
+        wxTE_RICH2 |               // 增强的文本控件
+        wxTE_AUTO_URL |            // 自动识别URL
+        wxHSCROLL |                // 水平滚动条
+        wxVSCROLL                  // 垂直滚动条
+    );
+    textCtrl -> SetValue(wxString::FromUTF8(to_show));
+    textCtrl -> SetFont(font15);
+    vbox -> Add(textCtrl, FLAG_CENTER);
 
     Simple::BackButton(&MarkdownToolMainFrame::search_markdown, panel, vbox, this);
 }
