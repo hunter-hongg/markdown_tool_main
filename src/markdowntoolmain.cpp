@@ -15,13 +15,6 @@
 #include <markdowntoolmain.hpp>
 #include "fileselector.hpp"
 
-bool MyApp::OnInit()
-{
-    MarkdownToolMainFrame *frame = new MarkdownToolMainFrame("Basic wxWidgets Frame", wxDefaultPosition, wxSize(600, 600));
-    frame->Show(true);
-    return true;
-}
-
 MarkdownToolMainFrame::MarkdownToolMainFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     : wxFrame(nullptr, wxID_ANY, title, pos, size)
 {
